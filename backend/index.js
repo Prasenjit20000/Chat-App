@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true })); // for form-data/urlencoded
 app.use(cookieParser()); // for reading cookies from request frontend to backend
 const corsOptions = {
     origin: 
-    'http://localhost:8080',
+    'http://localhost:5173',
     credentials : true
 }
 app.use(cors(corsOptions));
