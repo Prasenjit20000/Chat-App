@@ -1,14 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ImSearch } from "react-icons/im";
 import OtherUsers from './OtherUsers';
+import axios from 'axios';
+import { toast } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import {  setSearchTerm, setSelectedUser } from '../redux/userSlice';
 
 const Sidebar = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [search, setSearch] = useState('');
+    
+    const logoutHandler = async () => {
+        try {
+            const res = await axios.get('http://localhost:8080/api/v1/user/logout', { withCredentials: true });
+            toast.success(res.data.message);
+            dispatch(setSelectedUser(null));
+            navigate('/login');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    const searchSubmitHandler = (e) =>{
+        e.preventDefault();
+        dispatch(setSearchTerm(search));
+    }
+   
     return (
         <div className='border-r border-slate-500 p-4 flex flex-col' >
-            <form action="" className='flex items-center gap-2'>
+            <form onSubmit={searchSubmitHandler} className='flex items-center gap-2'>
                 <input
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                     className='input input-boardered rounded-md'
-                    placeholder='...'
+                    placeholder='Search...'
                 />
                 <button type='submit' className='btn bg-transparent border-0.5 h-9.5 w-12  '>
                     <ImSearch className='text-black' />
@@ -18,7 +44,7 @@ const Sidebar = () => {
             <OtherUsers />
             <div className="divider"></div>
             <div className='mt-2'>
-                <button className='btn btn-sm'>Logout</button>
+                <button onClick={logoutHandler} className='btn btn-sm'>Logout</button>
             </div>
         </div>
     )
