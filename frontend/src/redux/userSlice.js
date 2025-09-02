@@ -6,7 +6,8 @@ const userSlice = createSlice({
         authUser:null,
         otherUsers:null,
         selectedUser:null,
-        searchTerm:''
+        searchTerm:'',
+        onLineUsers:[]
     },
     reducers:{
         setAuthUser:(state,action)=>{
@@ -20,9 +21,12 @@ const userSlice = createSlice({
         },
         setSearchTerm:(state,action)=>{
             state.searchTerm=action.payload;
+        },
+        setOnLineUsers:(state,action)=>{
+            state.onLineUsers=action.payload;
         }
     }
 });
 
-export const {setAuthUser,setOtherUsers,setSelectedUser,setSearchTerm} = userSlice.actions;
+export const {setAuthUser,setOtherUsers,setSelectedUser,setSearchTerm,setOnLineUsers} = userSlice.actions;
 export default userSlice.reducer;

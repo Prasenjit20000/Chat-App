@@ -8,24 +8,24 @@ const SendInput = () => {
 
   const dispatch = useDispatch();
   const [message, setMessage] = useState('');
-  const {selectedUser} = useSelector(store=>store.user);
-  const {messages} = useSelector(store=>store.message);
-  
+  const { selectedUser } = useSelector(store => store.user);
+  const { messages } = useSelector(store => store.message);
 
-  const onSubmitHandler = async(e) =>{
+
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://localhost:8080/api/v1/message/send/${selectedUser?._id}`,{message},{
-        headers : {
-          'Content-Type':'application/json'
+      const res = await axios.post(`http://localhost:8080/api/v1/message/send/${selectedUser?._id}`, { message }, {
+        headers: {
+          'Content-Type': 'application/json'
         },
-        withCredentials:true
+        withCredentials: true
       });
 
-      dispatch(setMessages([...messages,res?.data?.newMessage]));
+      dispatch(setMessages([...messages, res?.data?.newMessage]));
       setMessage('');
     } catch (error) {
-      console.log(error); 
+      console.log(error);
     }
 
   }
@@ -38,9 +38,12 @@ const SendInput = () => {
             placeholder='Send a message...'
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className='border text-sm rounded-lg block w-full placeholder:text-black text-black p-3 border-zinc-300'
+            className='border text-sm rounded-lg block w-full placeholder:text-black text-black p-3 pr-12 border-zinc-300'
           />
-          <button type='submit' className='absolute flex items-center inset-y-0 end-0 pr-4 hover:cursor-pointer'>
+          <button
+            type='submit'
+            className='absolute flex items-center inset-y-0 right-0 pr-4 hover:cursor-pointer'
+          >
             <IoSend className='h-5 w-5' />
           </button>
         </div>

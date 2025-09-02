@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { Link, useNavigate } from "react-router-dom"
-import { useDispatch} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 import { setAuthUser } from '../redux/userSlice'
 
 const LoginPage = () => {
@@ -11,9 +11,7 @@ const LoginPage = () => {
   const [user, setUser] = useState({
     userName: "",
     password: "",
-
   })
-
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try {

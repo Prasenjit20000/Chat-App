@@ -4,14 +4,15 @@ import Messages from './Messages'
 import { useSelector } from 'react-redux'
 
 const MessageContainer = () => {
-  const { selectedUser,authUser } = useSelector(store => store.user);
+  const { selectedUser,authUser,onLineUsers } = useSelector(store => store.user);
+  const isOnline = onLineUsers.includes(selectedUser?._id);
   return (
     <>
       {
         selectedUser ? (
           <div className='flex md:min-w-[550px] flex-col '>
             <div className='flex items-center gap-2    px-4 py-2 bg-zinc-800 '>
-              <div className='avatar avatar-online'>
+              <div className={`avatar ${isOnline? 'avatar-online':''}`}>
                 <div className='w-10 rounded-full'>
                   <img src={selectedUser?.profilePhoto} />
                 </div>

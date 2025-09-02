@@ -4,19 +4,25 @@ import OtherUsers from './OtherUsers';
 import axios from 'axios';
 import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
-import {  setSearchTerm, setSelectedUser } from '../redux/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {  setAuthUser, setOtherUsers, setSearchTerm, setSelectedUser } from '../redux/userSlice';
 
 const Sidebar = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [search, setSearch] = useState('');
-    
+    const {socket} = useSelector(store=>store.socket)
     const logoutHandler = async () => {
         try {
+            if(socket){
+                socket.disconnect(); // Manual disconnection
+            }
             const res = await axios.get('http://localhost:8080/api/v1/user/logout', { withCredentials: true });
             toast.success(res.data.message);
             dispatch(setSelectedUser(null));
+            dispatch(setAuthUser(null));
+            dispatch(setOtherUsers(null));
+            dispatch(setSearchTerm(''));
             navigate('/login');
         } catch (error) {
             console.log(error);
